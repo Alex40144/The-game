@@ -1,10 +1,8 @@
 import React, { useRef, useState, Suspense, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Sky, PointerLockControls } from "@react-three/drei"
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as THREE from "three"
-import { Vector3 } from 'three'
-
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 const GamePage = () => {
     if (typeof window == 'undefined' || typeof document == 'undefined'){
@@ -12,15 +10,18 @@ const GamePage = () => {
             <div>Loading</div>
         )
     }
+
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 )
+
+    scene.background = new THREE.Color( 0xcccccc );
+	scene.fog = new THREE.FogExp2( 0xcccccc, 0.001 );
 
     const renderer = new THREE.WebGLRenderer()
     renderer.setSize( window.innerWidth, window.innerHeight )
     document.body.appendChild( renderer.domElement )
 
-    const grid = new THREE.GridHelper( 20, 20 );
-    grid.rotateOnAxis(new THREE.Vector3(1,0,0), Math.PI / 2)
+    const grid = new THREE.GridHelper(1000, 10, 0x0000AA, 0x00AA00)
     scene.add(grid)
 
     const light = new THREE.AmbientLight()
@@ -28,14 +29,24 @@ const GamePage = () => {
     light.color.set('white')
     scene.add(light)
 
-    const controls = new OrbitControls(camera, renderer.domElement)
-    camera.up.set( 0, 0, 1 );
+    camera.position.set( 200, 100, 0 );
 
-    camera.position.z = 5
+    const controls = new OrbitControls( camera, renderer.domElement );
+
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls.dampingFactor = 0.2;
+
+    controls.screenSpacePanning = false;
+
+    controls.minDistance = 250;
+    controls.maxDistance = 1000;
+
+    controls.maxPolarAngle = Math.PI / 2.5; //not quite flat
+
 
     function animate() {
         requestAnimationFrame( animate )
-        controls.update()
+        //controls.update()
         //animation code
 
         renderer.render( scene, camera )
