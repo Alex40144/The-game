@@ -3,6 +3,9 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Sky, PointerLockControls } from "@react-three/drei"
 import * as THREE from "three"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { Vector3 } from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
 
 const GamePage = () => {
     if (typeof window == 'undefined' || typeof document == 'undefined'){
@@ -10,24 +13,39 @@ const GamePage = () => {
             <div>Loading</div>
         )
     }
-
+    const loader = new GLTFLoader();
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 )
 
-    scene.background = new THREE.Color( 0xcccccc );
-	scene.fog = new THREE.FogExp2( 0xcccccc, 0.001 );
 
-    const renderer = new THREE.WebGLRenderer()
+    const renderer = new THREE.WebGLRenderer({antialias: true})
+    renderer.setPixelRatio( window.devicePixelRatio * 1.5 )
     renderer.setSize( window.innerWidth, window.innerHeight )
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = true;
     document.body.appendChild( renderer.domElement )
 
-    const grid = new THREE.GridHelper(1000, 10, 0x0000AA, 0x00AA00)
-    scene.add(grid)
 
-    const light = new THREE.AmbientLight()
-    light.position.set(0, 0, 5)
-    light.color.set('white')
-    scene.add(light)
+    const grid = new THREE.GridHelper(1000, 100, 0xffffff, 0x888888)
+    grid.position.y = 0.55
+    //scene.add(grid)
+
+    scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
+
+    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+    hemiLight.color.setHSL( 0.6, 1, 0.6 );
+    hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+    hemiLight.position.set( 10, 50, 10 );
+    hemiLight.intensity = 2
+    scene.add( hemiLight );
+
+
+    var dirLight = new THREE.DirectionalLight( 0xffffff, 2 );
+    dirLight.position.set( 75, 300, -75 );
+    dirLight.castShadow = true;
+    dirLight.shadow.radius = 8;
+    scene.add( dirLight );
+
 
     camera.position.set( 200, 100, 0 );
 
@@ -38,10 +56,51 @@ const GamePage = () => {
 
     controls.screenSpacePanning = false;
 
-    controls.minDistance = 250;
+    controls.minDistance = 50;
     controls.maxDistance = 1000;
 
     controls.maxPolarAngle = Math.PI / 2.5; //not quite flat
+
+    
+
+    loader.load( '/models/tree_default.glb', function ( gltf ) {
+        gltf.scene.scale.set(10,10,10)
+        gltf.scene.position.x = 15
+        gltf.scene.position.z = 5
+        gltf.scene.position.y = 0.5
+        gltf.scene.castShadow = true
+        scene.add( gltf.scene );
+
+    }, undefined, function ( error ) {
+
+        console.error( error );
+
+    } );
+    
+    loader.load( '/models/ground_grass.glb', function ( gltf ) {
+        gltf.scene.scale.set(10,10,10)
+        gltf.scene.position.y = 0.5
+        gltf.scene.visible = false
+        for(var x = -10; x < 10; x++){
+            for(var z = -10; z < 10; z++){
+                var newModel = gltf.scene.clone()
+                newModel.position.z = 5 + (z * 10)
+                newModel.position.x = 5 + (x * 10)
+                newModel.receiveShadow = true
+                newModel.visible = true
+                scene.add( newModel );
+            }
+        }
+        
+
+    }, undefined, function ( error ) {
+
+        console.error( error );
+
+    } );
+
+    
+    
 
 
     function animate() {
