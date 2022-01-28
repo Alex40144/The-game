@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/Link'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -22,48 +22,48 @@ export default function Home() {
                 </p>
 
                 <div className={styles.grid}>
-                    <div  className={styles.card}>
-                        <Link href="/Learn">
-                            <h2>The Project &rarr;</h2>
-                            <p>Learn more about The Game!</p>
-                        </Link>
-                    </div>
+                    <Link href="/Learn" passHref>
+                        <div  className={styles.card}>
+                                <a>The Project &rarr;</a>
+                                <p>Learn more about The Game!</p>
+                        </div>
+                    </Link>
 
-                    <div className={styles.card}>
-                        <Link href="/Play">
-                            <h2>Play Demo &rarr;</h2>
+                    <Link href="/Play" passHref>
+                        <div className={styles.card}>
+                            <a>Play Demo &rarr;</a>
                             <p>Coming soon (hopefully)</p>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
 
-                    <div className={styles.card}>
-                        <Link href="/RoadMap">
-                            <h2>Road map &rarr;</h2>
+                    <Link href="/RoadMap" passHref>
+                        <div className={styles.card}>
+                            <a>Road map &rarr;</a>
                             <p>See planned features and progress</p>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
 
-                    <div className={styles.card}>
-                        <Link href="/Contribute">
-                            <h2>Open Source &rarr;</h2>
+                    <Link href="/Contribute" passHref>
+                        <div className={styles.card}>
+                            <a>Open Source &rarr;</a>
                             <p>Contribute to the project</p>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
               </div>
           </main>
 
           <footer className={styles.footer}>
-              <a
-                  href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-              >
-                  Powered by{' '}
-                  <span className={styles.logo}>
-                      <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-                  </span>
-              </a>
-          </footer>
-      </div>
+                <a
+                    href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Powered by{' '}
+                    <span className={styles.logo}>
+                        <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+                    </span>
+                </a>
+            </footer>
+        </div>
     )
 }
