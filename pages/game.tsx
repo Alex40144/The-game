@@ -81,8 +81,8 @@ const GamePage = () => {
         gltf.scene.scale.set(10,10,10)
         gltf.scene.position.y = 0.5
         gltf.scene.visible = false
-        for(var x = -10; x < 10; x++){
-            for(var z = -10; z < 10; z++){
+        for(var x = -100; x < 100; x++){
+            for(var z = -100; z < 100; z++){
                 var newModel = gltf.scene.clone()
                 newModel.position.z = 5 + (z * 10)
                 newModel.position.x = 5 + (x * 10)
