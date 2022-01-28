@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/Link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
 
             <main className={styles.main}>
                 <h1 className={styles.title}>
-                    Welcome to <a href="">The Game</a>
+                    Welcome to <Link href="">The Game</Link>
                 </h1>
 
                 <p className={styles.description}>
@@ -21,25 +22,33 @@ export default function Home() {
                 </p>
 
                 <div className={styles.grid}>
-                    <a href="/Learn" className={styles.card}>
-                        <h2>The Project &rarr;</h2>
-                        <p>Learn more about The Game!</p>
-                    </a>
+                    <div  className={styles.card}>
+                        <Link href="/Learn">
+                            <h2>The Project &rarr;</h2>
+                            <p>Learn more about The Game!</p>
+                        </Link>
+                    </div>
 
-                    <a href="/Play" className={styles.card}>
-                        <h2>Play Demo &rarr;</h2>
-                        <p>Coming soon (hopefully)</p>
-                    </a>
+                    <div className={styles.card}>
+                        <Link href="/Play">
+                            <h2>Play Demo &rarr;</h2>
+                            <p>Coming soon (hopefully)</p>
+                        </Link>
+                    </div>
 
-                    <a href="/RoadMap" className={styles.card}>
-                        <h2>Road map &rarr;</h2>
-                        <p>See planned features and progress</p>
-                    </a>
+                    <div className={styles.card}>
+                        <Link href="/RoadMap">
+                            <h2>Road map &rarr;</h2>
+                            <p>See planned features and progress</p>
+                        </Link>
+                    </div>
 
-                    <a href="/Contribute" className={styles.card}>
-                        <h2>Open Source &rarr;</h2>
-                        <p>Contribute to the project</p>
-                    </a>
+                    <div className={styles.card}>
+                        <Link href="/Contribute">
+                            <h2>Open Source &rarr;</h2>
+                            <p>Contribute to the project</p>
+                        </Link>
+                    </div>
               </div>
           </main>
 
