@@ -22,9 +22,9 @@ export default function Learn() {
 
                 <div>
                     <p className={styles.center}>
-                        The game follows the idea of the real world.
+                        Create a vibrant community
                         <br/>
-                        Do work, make money, spend money.
+                        Work with others
                     </p>
               </div>
           </main>
